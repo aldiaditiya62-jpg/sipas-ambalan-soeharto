@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#164b35">
+<title>SIPAS — Administrasi Ambalan Soeharto</title>
+<style>
+:root{--green:#164b35;--green2:#216746;--gold:#e4bd59;--bg:#f3f6f4;--card:#fff;--ink:#1d2922;--muted:#68766d;--line:#dce5de;--red:#b83232}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}button,input,select,textarea{font:inherit}button{cursor:pointer}
+header{background:linear-gradient(135deg,var(--green),#0e3023);color:#fff;padding:22px 16px 18px;border-bottom:4px solid var(--gold)}
+.wrap{max-width:1100px;margin:auto}.brand{display:flex;gap:13px;align-items:center}.logo{width:54px;height:54px;border:2px solid #ffffff80;border-radius:15px;display:grid;place-items:center;font-size:28px;background:#ffffff12}.brand h1{font-size:22px;margin:0}.brand p{margin:4px 0 0;color:#d6e8dc;font-size:12px;line-height:1.45}
+.topnote{margin:17px 0 0;background:#ffffff12;padding:10px 12px;border-radius:10px;font-size:12px;color:#e7f0e9}
+main{max-width:1100px;margin:18px auto;padding:0 12px 40px}.nav{display:flex;gap:8px;overflow:auto;padding-bottom:10px}.nav button{white-space:nowrap;border:1px solid var(--line);background:#fff;border-radius:10px;padding:10px 13px;color:var(--green);font-weight:650}.nav button.active{background:var(--green);color:#fff;border-color:var(--green)}
+h2{font-size:20px;margin:12px 0 4px}.sub{color:var(--muted);font-size:13px;margin:0 0 16px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px;box-shadow:0 2px 8px #163a2410}.stat small{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:27px;color:var(--green);margin-top:7px}.stat .symbol{font-size:20px;float:right}.sectionhead{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:18px 0 12px}.btn{border:0;border-radius:9px;background:var(--green);color:#fff;padding:10px 13px;font-weight:650}.btn.secondary{background:#e6eee8;color:var(--green)}.btn.danger{background:#fbe9e9;color:var(--red)}.btn.small{padding:6px 9px;font-size:12px}.actions{display:flex;gap:6px;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--muted);font-weight:650;background:#f8faf8} .tablewrap{overflow:auto}.empty{text-align:center;color:var(--muted);padding:25px}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{font-size:12px;font-weight:700;color:#4a5c50;display:block}input,select,textarea{display:block;width:100%;border:1px solid #cfdad1;border-radius:9px;padding:10px;margin-top:5px;background:white;color:var(--ink)}textarea{min-height:85px;resize:vertical}.full{grid-column:1/-1}.formactions{display:flex;gap:8px;justify-content:flex-end;grid-column:1/-1}
+.notice{border-radius:12px;background:#fff7df;border:1px solid #f0dfa6;padding:12px;font-size:12px;line-height:1.5;color:#67521a;margin:12px 0}.pill{display:inline-block;background:#e6f2e9;color:#20613d;border-radius:30px;padding:4px 8px;font-size:11px;font-weight:700}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.brand h1{font-size:19px}form{grid-template-columns:1fr}.full,.formactions{grid-column:1}.sectionhead{align-items:flex-start;flex-direction:column}.card{padding:12px}th,td{padding:9px 7px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="brand"><div class="logo">⚜</div><div><h1>SIPAS</h1><p>Sistem Informasi Pramuka Ambalan Soeharto<br>Gugus Depan 05.057–05.058 · Pangkalan SMA Negeri 2 Long Ikis</p></div></div>
+ <div class="topnote">🏕️ Administrasi digital Ambalan Soeharto · Tahun Bakti <span id="yearLabel">2026/2027</span></div>
+</div></header>
+<main>
+ <nav class="nav" id="nav"></nav>
+ <div id="content"></div>
+ <div class="notice"><b>Catatan penyimpanan:</b> Data saat ini tersimpan di browser/perangkat ini. Data belum otomatis tersinkron ke perangkat pengurus lain. Gunakan Ekspor Cadangan secara berkala.</div>
+</main>
+<footer>SIPAS · Ambalan Soeharto · SMA Negeri 2 Long Ikis</footer>
+<script>
+const modules={
+ dashboard:{label:'Dashboard',icon:'▦'},
+ anggota:{label:'Anggota',icon:'♟',title:'Data Anggota',fields:[['nama','Nama lengkap','text',true],['nis','NIS/NISN','text'],['jk','Jenis kelamin','select',['Laki-laki','Perempuan']],['jabatan','Jabatan di ambalan','text'],['regu','Sangga','text'],['telepon','No. HP','tel'],['status','Status','select',['Aktif','Tidak aktif']]]},
+ suratMasuk:{label:'Surat Masuk',icon:'↙',title:'Surat Masuk',fields:[['nomor','Nomor surat','text',true],['tanggal','Tanggal diterima','date',true],['asal','Asal surat','text',true],['perihal','Perihal','text',true],['catatan','Catatan','textarea']]},
+ suratKeluar:{label:'Surat Keluar',icon:'↗',title:'Surat Keluar',fields:[['nomor','Nomor surat','text',true],['tanggal','Tanggal surat','date',true],['tujuan','Tujuan surat','text',true],['perihal','Perihal','text',true],['penandatangan','Penandatangan','text'],['catatan','Catatan','textarea']]},
+ kegiatan:{label:'Program & Kegiatan',icon:'▦',title:'Program dan Kegiatan',fields:[['nama','Nama kegiatan','text',true],['tanggal','Tanggal','date',true],['lokasi','Lokasi','text'],['penanggungjawab','Penanggung jawab','text'],['status','Status','select',['Rencana','Berjalan','Selesai']],['catatan','Catatan/laporan','textarea']]},
+ rapat:{label:'Rapat & Notulen',icon:'☷',title:'Rapat dan Notulen',fields:[['nama','Nama rapat','text',true],['tanggal','Tanggal rapat','date',true],['tempat','Tempat','text'],['pimpinan','Pimpinan rapat','text'],['notulen','Isi notulen','textarea',true]]},
+ inventaris:{label:'Inventaris',icon:'▤',title:'Inventaris Ambalan',fields:[['barang','Nama barang','text',true],['jumlah','Jumlah','number',true],['kondisi','Kondisi','select',['Baik','Perlu perbaikan','Rusak']],['lokasi','Lokasi penyimpanan','text'],['catatan','Catatan','textarea']]},
+ arsip:{label:'Arsip Dokumen',icon:'▣',title:'Arsip Dokumen',fields:[['nama','Nama dokumen','text',true],['kategori','Kategori','select',['Surat','Berita acara','Program kerja','Laporan','Lainnya']],['tanggal','Tanggal dokumen','date'],['nomor','Nomor dokumen','text'],['catatan','Keterangan/lokasi berkas','textarea']]},
+ pengaturan:{label:'Pengaturan',icon:'⚙'}
+};
+const keys=Object.keys(modules); let current='dashboard',editing=null;
+const storageKey='sipas-ambalan-v1';
+let db=JSON.parse(localStorage.getItem(storageKey)||'{}');
+function save(){localStorage.setItem(storageKey,JSON.stringify(db))}
+function rows(k){return db[k]||[]}
+function setRows(k,v){db[k]=v;save()}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function nav(){document.getElementById('nav').innerHTML=keys.map(k=>`<button class="${current===k?'active':''}" onclick="go('${k}')">${modules[k].icon} ${modules[k].label}</button>`).join('')}
+function go(k){current=k;editing=null;nav();render()}
+function render(){const el=document.getElementById('content'); if(current==='dashboard'){el.innerHTML=`<h2>Dashboard</h2><p class="sub">Ringkasan administrasi Ambalan Soeharto</p><div class="grid">${[['Anggota','anggota','♟'],['Surat masuk','suratMasuk','↙'],['Surat keluar','suratKeluar','↗'],['Kegiatan','kegiatan','▦']].map(([l,k,i])=>`<div class="card stat"><span class="symbol">${i}</span><small>${l}</small><strong>${rows(k).length}</strong></div>`).join('')}</div><div class="sectionhead"><h2>Menu Administrasi</h2></div><div class="grid">${keys.filter(k=>k!=='dashboard'&&k!=='pengaturan').map(k=>`<button class="card" style="text-align:left;border:1px solid var(--line);color:var(--green)" onclick="go('${k}')"><div style="font-size:23px">${modules[k].icon}</div><b>${modules[k].label}</b><div style="font-size:12px;color:var(--muted);margin-top:5px">${rows(k).length} data tersimpan</div></button>`).join('')}</div><div class="sectionhead"><h2>Cadangan Data</h2><div class="actions"><button class="btn" onclick="exportData()">Ekspor JSON</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Impor Cadangan</button><input id="importFile" type="file" accept=".json,application/json" hidden onchange="importData(event)"></div></div><p class="sub">Ekspor untuk memindahkan cadangan antarperangkat. Simpan file dengan aman.</p>`;return}
+if(current==='pengaturan'){el.innerHTML=`<h2>Pengaturan</h2><p class="sub">Identitas administrasi ambalan</p><div class="card"><form onsubmit="saveSettings(event)"><label>Nama ambalan<input name="ambalan" value="${esc(db.settings?.ambalan||'Ambalan Soeharto')}" required></label><label>Gugus depan<input name="gudep" value="${esc(db.settings?.gudep||'05.057–05.058')}" required></label><label class="full">Pangkalan<input name="pangkalan" value="${esc(db.settings?.pangkalan||'SMA Negeri 2 Long Ikis')}" required></label><label>Tahun bakti<input name="tahun" value="${esc(db.settings?.tahun||'2026/2027')}" required></label><div class="formactions"><button class="btn" type="submit">Simpan pengaturan</button></div></form><hr style="border:0;border-top:1px solid var(--line);margin:18px 0"><button class="btn danger" onclick="clearData()">Hapus semua data di perangkat ini</button></div>`;return}
+const m=modules[current],list=rows(current);el.innerHTML=`<div class="sectionhead"><div><h2>${m.title}</h2><p class="sub">${list.length} data tercatat</p></div><button class="btn" onclick="formView()">＋ Tambah data</button></div><div id="formslot"></div><div class="card tablewrap">${list.length?`<table><thead><tr>${m.fields.slice(0,4).map(f=>`<th>${f[1]}</th>`).join('')}<th>Aksi</th></tr></thead><tbody>${list.map((r,i)=>`<tr>${m.fields.slice(0,4).map(f=>`<td>${esc(r[f[0]])||'—'}</td>`).join('')}<td><div class="actions"><button class="btn secondary small" onclick="formView(${i})">Edit</button><button class="btn danger small" onclick="delRow(${i})">Hapus</button></div></td></tr>`).join('')}</tbody></table>`:`<div class="empty">Belum ada data. Tekan “Tambah data” untuk mulai mencatat.</div>`}</div>`}
+function formView(index=null){editing=index;const m=modules[current],r=index===null?{}:rows(current)[index];let html=`<div class="card" style="margin-bottom:14px"><div class="sectionhead"><h2>${index===null?'Tambah':'Edit'} data</h2><button class="btn secondary small" onclick="document.getElementById('formslot').innerHTML=''">Tutup</button></div><form onsubmit="submitForm(event)">`;for(const f of m.fields){let [key,label,type,reqOrOpts,opts]=f;let required=type==='select'?false:(reqOrOpts===true);if(type==='select'){opts=reqOrOpts;html+=`<label>${label}<select name="${key}"><option value="">Pilih…</option>${opts.map(o=>`<option ${r[key]===o?'selected':''}>${o}</option>`).join('')}</select></label>`}else if(type==='textarea'){html+=`<label class="full">${label}<textarea name="${key}" ${required?'required':''}>${esc(r[key]||'')}</textarea></label>`}else{html+=`<label>${label}<input name="${key}" type="${type}" value="${esc(r[key]||'')}" ${required?'required':''}></label>`}}html+=`<div class="formactions"><button class="btn secondary" type="button" onclick="document.getElementById('formslot').innerHTML=''">Batal</button><button class="btn" type="submit">Simpan data</button></div></form></div>`;document.getElementById('formslot').innerHTML=html;document.getElementById('formslot').scrollIntoView({behavior:'smooth',block:'start'})}
+function submitForm(e){e.preventDefault();const m=modules[current],fd=new FormData(e.target),r={};m.fields.forEach(f=>r[f[0]]=fd.get(f[0])||'');let a=rows(current).slice();if(editing===null)a.unshift(r);else a[editing]=r;setRows(current,a);render()}
+function delRow(i){if(confirm('Hapus data ini?')){let a=rows(current).slice();a.splice(i,1);setRows(current,a);render()}}
+function exportData(){const blob=new Blob([JSON.stringify({app:'SIPAS',version:1,exportedAt:new Date().toISOString(),data:db},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='cadangan-sipas-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(a.href)}
+function importData(e){const f=e.target.files[0];if(!f)return;const reader=new FileReader();reader.onload=()=>{try{const x=JSON.parse(reader.result);const d=x.data||x;if(!confirm('Impor akan mengganti data SIPAS saat ini. Lanjutkan?'))return;db=d;save();render();alert('Cadangan berhasil diimpor.')}catch{alert('File cadangan tidak valid.')}};reader.readAsText(f);e.target.value=''}
+function saveSettings(e){e.preventDefault();db.settings=Object.fromEntries(new FormData(e.target));save();document.getElementById('yearLabel').textContent=db.settings.tahun;alert('Pengaturan disimpan.')}
+function clearData(){if(confirm('Yakin menghapus semua data SIPAS dari browser ini? Ekspor cadangan terlebih dahulu.')){db={};save();go('dashboard')}}
+nav();render();document.getElementById('yearLabel').textContent=db.settings?.tahun||'2026/2027';
+</script>
+</body></html>
